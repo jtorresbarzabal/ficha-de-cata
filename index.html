@@ -212,6 +212,41 @@
     border: 1px solid var(--line);
     margin-bottom: 10px;
   }
+  /* ---- Mejoras UT4 ---- */
+  .tab { padding: 10px 6px; font-size: 12.5px; white-space: nowrap; }
+  .tab.small { flex: 0.8; }
+  .deduction { background: #FBF3E0; border-left: 3px solid var(--gold); border-radius: 8px; padding: 7px 10px; font-size: 12px; line-height: 1.4; margin-top: 2px; }
+  .aroma-group { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; background: var(--cream); }
+  .aroma-group .chip { background: #fff; }
+  .aroma-group .chip.active { background: var(--bordeaux); }
+  .aroma-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .aroma-head b { font-size: 12.5px; color: var(--bordeaux-dark); }
+  .aroma-head span { font-size: 10.5px; color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+  .aroma-group .hint { display: block; margin-top: 8px; }
+  .score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .score-label { min-width: 74px; font-size: 12.5px; font-weight: 600; }
+  .score-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .score-chip { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--cream); color: var(--ink); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; cursor: pointer; padding: 0; }
+  .score-chip.active { background: var(--bordeaux); border-color: var(--bordeaux); color: #fff; }
+  .score-max { font-size: 11px; color: var(--ink-soft); }
+  .total-box { display: flex; justify-content: space-between; align-items: center; background: var(--bordeaux); color: var(--cream); border-radius: 12px; padding: 10px 14px; margin: 6px 0 14px; font-size: 13px; font-weight: 600; }
+  .total-box b { font-family: 'Fraunces', serif; font-size: 26px; }
+  .guide details { background: #fff; border: 1px solid var(--line); border-radius: 14px; margin-bottom: 10px; overflow: hidden; }
+  .guide summary { cursor: pointer; padding: 14px 16px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 16px; color: var(--bordeaux-dark); list-style: none; }
+  .guide summary::-webkit-details-marker { display: none; }
+  .guide summary::after { content: '＋'; float: right; color: var(--gold); }
+  .guide details[open] summary::after { content: '－'; }
+  .guide .gbody { padding: 0 16px 14px; font-size: 13px; line-height: 1.5; }
+  .guide .gbody h5 { margin: 12px 0 5px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gold); }
+  .guide .gbody ul { margin: 0 0 6px; padding-left: 18px; }
+  .guide .gbody li { margin-bottom: 3px; }
+  .guide .rule { background: #FBF3E0; border-left: 3px solid var(--gold); border-radius: 8px; padding: 8px 10px; margin: 8px 0; font-size: 12.5px; }
+  .guide .row { display: flex; align-items: flex-start; gap: 9px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+  .guide .row:last-child { border-bottom: none; }
+  .guide .row .sw { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; border: 1px solid rgba(0,0,0,0.15); }
+  .guide dl { margin: 0; }
+  .guide dt { font-weight: 700; color: var(--bordeaux-dark); margin-top: 7px; }
+  .guide dd { margin: 0; color: var(--ink); }
 </style>
 </head>
 <body>
@@ -226,37 +261,95 @@ const LOGO_B64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAIAAACx
 const TIPOS = [ { v:'blanco', l:'Blanco' }, { v:'rosado', l:'Rosado' }, { v:'tinto', l:'Tinto' }, { v:'espumoso', l:'Espumoso' }, { v:'generoso', l:'Generoso' } ];
 
 const COLORS = {
-  blanco: [ ['Amarillo verdoso','#C9D48B'], ['Amarillo pajizo','#E8D87A'], ['Amarillo dorado','#E0B84D'], ['Dorado','#D4A017'], ['Ámbar','#C08A2E'] ],
-  rosado: [ ['Piel de cebolla','#E8B89B'], ['Rosa pálido','#F2C6C1'], ['Frambuesa','#E88A9A'], ['Rosa fresa','#E96A83'] ],
-  tinto:  [ ['Púrpura violáceo','#5B1A34'], ['Rojo rubí','#8B1E3F'], ['Rojo cereza','#971B3A'], ['Rojo teja','#7A3B2E'], ['Rojo granate','#6E1F2A'], ['Caoba','#5C3A2E'] ],
+  blanco: [ ['Amarillo verdoso','#C9D48B'], ['Amarillo limón','#F0E55A'], ['Amarillo pajizo','#E8D87A'], ['Amarillo dorado','#E0B84D'], ['Dorado','#D4A017'], ['Ámbar','#C08A2E'] ],
+  rosado: [ ['Piel de cebolla','#E8B89B'], ['Rosa pálido','#F2C6C1'], ['Salmón','#EFA38F'], ['Frambuesa','#E88A9A'], ['Rosa fresa','#E96A83'], ['Granadina','#D9456B'] ],
+  tinto:  [ ['Púrpura violáceo','#5B1A34'], ['Rojo cereza','#971B3A'], ['Rojo picota','#5E1226'], ['Rojo rubí','#8B1E3F'], ['Rojo granate','#6E1F2A'], ['Rojo teja','#7A3B2E'], ['Caoba','#5C3A2E'] ],
   espumoso: [ ['Amarillo verdoso','#C9D48B'], ['Amarillo pajizo','#E8D87A'], ['Dorado','#D4A017'], ['Rosado salmón','#E8A9A0'] ],
   generoso: [ ['Amarillo pajizo','#E8D87A'], ['Dorado','#D4A017'], ['Ámbar','#C08A2E'], ['Caoba','#5C3A2E'], ['Negro azabache','#2B1810'] ],
 };
 
-const INTENSIDAD_COLOR = ['Pálido','Medio','Alto'];
-const LIMPIDEZ = ['Limpio','Turbio'];
+/* Ribete (tintos) o reflejos (resto): [nombre, color, qué nos indica] */
+const RIBETES = {
+  tinto: { label:'Ribete', hint:'Inclina la copa sobre fondo blanco y mira el borde del vino: es menos intenso que el centro y delata la edad.',
+    opts:[ ['Violáceo','#7A2E7A','Vino muy joven (última cosecha).'], ['Frambuesa','#B03A5B','Vino joven.'], ['Granate','#8E2433','Vino algo más maduro.'], ['Teja / ladrillo','#B4553A','Más de 5 años en botella o crianza larga.'], ['Castaño','#8A5A3B','Posible vino pasado: muy evolucionado.'] ] },
+  rosado: { label:'Reflejos', hint:'Mira el borde del vino sobre fondo blanco.',
+    opts:[ ['Frambuesa','#E5758F','Rosado joven.'], ['Fresa fresca','#EE6F7F','Rosado maduro.'], ['Fresa madura','#D9536A','Rosado viejo.'], ['Albaricoque','#EFA977','Rosado pasado.'] ] },
+  blanco: { label:'Reflejos', hint:'Mira el borde del vino sobre fondo blanco.',
+    opts:[ ['Verdosos','#D3DE85','Vino joven.'], ['Pajizos','#EBDD85','Vino maduro.'], ['Dorados','#E3B94F','Vino viejo o con crianza en madera.'], ['Ambarinos','#C98B2C','Vino pasado u oxidado.'] ] },
+  generoso: { label:'Reflejos', hint:'Mira el borde del vino sobre fondo blanco.',
+    opts:[ ['Pajizos','#EBDD85','Típico de finos y manzanillas (crianza biológica).'], ['Dorados','#E3B94F','Crianza más larga.'], ['Ambarinos','#C98B2C','Crianza oxidativa (amontillado, oloroso).'], ['Caoba','#7A4A2B','Vino muy envejecido.'] ] },
+};
+RIBETES.espumoso = RIBETES.blanco;
+
+const INTENSIDAD_COLOR = ['Baja','Media-baja','Media','Media-alta','Alta'];
+const LIMPIDEZ = ['Brillante','Limpio','Velado','Turbio'];
 const LAGRIMA = ['Ligera','Media','Densa'];
+const EVOLUCION = ['Joven','Maduro','Viejo','Pasado'];
 const TIPO_BURBUJA = ['Fina','Gruesa'];
 const CANTIDAD_BURBUJAS = ['Escasa','Abundante'];
 const PERSISTENCIA_BURBUJA = ['Corta','Media','Larga'];
 const INTENSIDAD_AROMA = ['Débil','Media','Intensa'];
 const FRANQUEZA = ['Franco','Con defectos'];
-const FAMILIAS_AROMA = ['Frutal','Floral','Especiado','Vegetal / Herbáceo','Balsámico','Tostado / Madera','Mineral','Animal','Láctico'];
+const CALIDAD_AROMA = ['Sencilla','Fina / elegante','Compleja'];
+const AROMAS = [
+  { t:'Primarios · de la uva', s:'Copa parada', pdf:'Aromas primarios', opts:['Frutal','Floral','Vegetal / Herbáceo','Mineral','Especiado'],
+    ej:'Frutal: manzana, cítricos, frutas rojas… · Floral: azahar, rosa, violeta… · Vegetal: hierba, heno, menta… · Mineral: tiza, pedernal…' },
+  { t:'Secundarios · de fermentación', s:'Moviendo la copa', pdf:'Aromas secundarios', opts:['Fermentación','Láctico','Amílico'],
+    ej:'Fermentación: levadura, miga de pan, brioche · Láctico: yogur, mantequilla · Amílico: plátano, caramelo ácido.' },
+  { t:'Terciarios · de crianza (bouquet)', s:'Tras airear el vino', pdf:'Aromas terciarios', opts:['Frutos secos','Confitería','Tostado / Empireumático','Madera / Balsámico','Animal / Cuero'],
+    ej:'Frutos secos: avellana, nuez · Confitería: miel, praliné · Tostado: cacao, café, pan tostado · Madera: vainilla, cedro, humo · Animal: cuero, caza (propio de tintos).' }
+];
+const FAMILIAS_AROMA = AROMAS.reduce((a, g) => a.concat(g.opts), []);
 const DULZOR = ['Seco','Semiseco','Semidulce','Dulce'];
 const ACIDEZ = ['Baja','Media','Alta'];
 const TANINOS = ['Suaves','Medios','Astringentes'];
+const ALCOHOL = ['Ligero','Cálido','Ardiente'];
 const CUERPO = ['Ligero','Medio','Con cuerpo'];
+const ENTRADA = ['Fresca y frutal','Suave','Golosa','Potente / compleja'];
+const FINAL_BOCA = ['Goloso','Amargo','Frutal / floral','Tostado / especiado'];
+const CARBONICO = ['Escaso','Equilibrado','Excesivo'];
 const PERSISTENCIA = ['Corta (< 4 s)','Media (4-6 s)','Larga (> 6 s)'];
 const EQUILIBRIO = ['Equilibrado','Desequilibrado'];
+const CRIANZA = ['Joven','Crianza','Reserva','Gran Reserva'];
+const PUNTOS = [ { k:'ptsVisual', l:'Visual', max:2 }, { k:'ptsOlfativa', l:'Olfativa', max:3 }, { k:'ptsGustativa', l:'Gustativa', max:5 } ];
 
 const emptyForm = () => ({
-  tipo:'tinto', color:'', intensidadColor:'', limpidez:'', lagrima:'',
+  tipo:'tinto', color:'', ribete:'', evolucion:'', intensidadColor:'', limpidez:'', lagrima:'',
   tipoBurbuja:'', cantidadBurbujas:'', persistenciaBurbuja:'',
-  intensidadAroma:'', franqueza:'', familias:[], notasAroma:'',
-  dulzor:'', acidez:'', taninos:'', cuerpo:'', persistencia:'', equilibrio:'',
-  nombre:'', bodega:'', doZona:'', anada:'', variedad:'', graduacion:'', precio:'',
-  maridaje:'', valoracion:5, conclusion:'', fotoEtiqueta:''
+  intensidadAroma:'', franqueza:'', calidadAroma:'', familias:[], notasAroma:'',
+  dulzor:'', acidez:'', taninos:'', alcohol:'', cuerpo:'', entrada:'', finalBoca:'', carbonico:'', persistencia:'', equilibrio:'',
+  nombre:'', bodega:'', doZona:'', anada:'', variedad:'', crianza:'', temperatura:'', graduacion:'', precio:'',
+  maridaje:'', ptsVisual:null, ptsOlfativa:null, ptsGustativa:null, valoracion:0, conclusion:'', fotoEtiqueta:''
 });
+
+function ribOpts(tipo) { return RIBETES[tipo] || RIBETES.blanco; }
+
+function ribeteHex(f) {
+  const found = ribOpts(f.tipo).opts.find(o => o[0] === f.ribete);
+  return found ? found[1] : '';
+}
+
+function ribeteHint(f) {
+  const found = ribOpts(f.tipo).opts.find(o => o[0] === f.ribete);
+  return found ? found[2] : '';
+}
+
+function totalPts(o) {
+  return (Number(o.ptsVisual) || 0) + (Number(o.ptsOlfativa) || 0) + (Number(o.ptsGustativa) || 0);
+}
+
+function aromasPorGrupo(f) {
+  const fam = f.familias || [];
+  const grupos = AROMAS.map(g => ({ g: g, sel: fam.filter(x => g.opts.indexOf(x) >= 0) }));
+  const otras = fam.filter(x => FAMILIAS_AROMA.indexOf(x) < 0);
+  return { grupos: grupos, otras: otras };
+}
+
+function hexToRgb(h) {
+  h = (h || '').replace('#', '');
+  if (h.length !== 6) return null;
+  return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+}
 
 /* ------------------------------------------------------------------ */
 /* Estado                                                               */
@@ -288,7 +381,7 @@ function esc(s) {
 /* ------------------------------------------------------------------ */
 window.setTab = function(t) { tab = t; expandedId = null; render(); };
 
-window.setTipo = function(v) { form.tipo = v; form.color = ''; render(); };
+window.setTipo = function(v) { form.tipo = v; form.color = ''; form.ribete = ''; render(); };
 
 window.chipClick = function(field, value, multi) {
   if (multi) {
@@ -303,11 +396,7 @@ window.chipClick = function(field, value, multi) {
 
 window.updateField = function(field, value) { form[field] = value; };
 
-window.updateValoracion = function(value) {
-  form.valoracion = Number(value);
-  const el = document.getElementById('val-display');
-  if (el) el.textContent = value + '/10';
-};
+window.setPts = function(k, n) { form[k] = (form[k] === n) ? null : n; render(); };
 
 window.resetForm = function() { form = emptyForm(); render(); };
 
@@ -340,7 +429,7 @@ window.saveFicha = function() {
     toast('Escribe el nombre del vino antes de guardar la ficha.');
     return;
   }
-  const nueva = Object.assign({}, form, { id: Date.now().toString(), fecha: new Date().toISOString() });
+  const nueva = Object.assign({}, form, { valoracion: totalPts(form), id: Date.now().toString(), fecha: new Date().toISOString() });
   fichas = [nueva].concat(fichas);
   persist();
   form = emptyForm();
@@ -402,15 +491,24 @@ function generatePdfForFicha(f) {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
   }
-  function line(label, value) {
+  function line(label, value, hex) {
     checkPageBreak(6);
     doc.setFont('helvetica', 'bold');
     const labelStr = label + ':  ';
     doc.text(labelStr, marginL, y);
     const labelWidth = doc.getTextWidth(labelStr);
     doc.setFont('helvetica', 'normal');
-    const wrapped = doc.splitTextToSize(value || '-', colWidth - labelWidth);
-    doc.text(wrapped, marginL + labelWidth, y);
+    let off = 0;
+    const rgb = (value && hex) ? hexToRgb(hex) : null;
+    if (rgb) {
+      doc.setFillColor(rgb[0], rgb[1], rgb[2]);
+      doc.setDrawColor(150, 140, 130);
+      doc.setLineWidth(0.2);
+      doc.circle(marginL + labelWidth + 2, y - 1.3, 1.7, 'FD');
+      off = 5.5;
+    }
+    const wrapped = doc.splitTextToSize(value || '-', colWidth - labelWidth - off);
+    doc.text(wrapped, marginL + labelWidth + off, y);
     y += 5 * Math.max(wrapped.length, 1);
   }
   function paragraph(text) {
@@ -455,14 +553,18 @@ function generatePdfForFicha(f) {
   line('D.O. / Zona vinícola', f.doZona);
   line('Añada', f.anada);
   line('Variedad de uva', f.variedad);
+  line('Crianza', f.crianza);
   line('Graduación', f.graduacion ? f.graduacion + ' % vol.' : '-');
+  line('Temperatura de servicio', f.temperatura ? f.temperatura + ' °C' : '-');
   line('Precio', f.precio ? f.precio + ' €' : '-');
   y += 2;
 
   sectionHeader('Fase visual');
   line('Tipo', f.tipo ? f.tipo.charAt(0).toUpperCase() + f.tipo.slice(1) : '-');
-  line('Color', f.color);
-  line('Intensidad de color', f.intensidadColor);
+  line('Color', f.color, hexFor(f));
+  line(f.tipo === 'tinto' ? 'Ribete' : 'Reflejos', f.ribete, ribeteHex(f));
+  line('Evolución', f.evolucion);
+  line('Intensidad de color (capa)', f.intensidadColor);
   line('Limpidez', f.limpidez);
   line('Lágrima', f.lagrima);
   if (f.tipo === 'espumoso') {
@@ -475,8 +577,11 @@ function generatePdfForFicha(f) {
 
   sectionHeader('Fase olfativa');
   line('Intensidad aromática', f.intensidadAroma);
+  line('Calidad', f.calidadAroma);
   line('Franqueza', f.franqueza);
-  line('Familias aromáticas', f.familias && f.familias.length ? f.familias.join(', ') : '-');
+  const ap = aromasPorGrupo(f);
+  ap.grupos.forEach(function (x) { line(x.g.pdf, x.sel.length ? x.sel.join(', ') : '-'); });
+  if (ap.otras.length) line('Otras familias', ap.otras.join(', '));
   line('Notas', f.notasAroma);
   y += 2;
 
@@ -484,13 +589,20 @@ function generatePdfForFicha(f) {
   line('Dulzor', f.dulzor);
   line('Acidez', f.acidez);
   if (f.tipo === 'tinto' || f.tipo === 'rosado') line('Taninos', f.taninos);
+  line('Alcohol', f.alcohol);
   line('Cuerpo', f.cuerpo);
+  line('Entrada en boca', f.entrada);
+  line('Final de boca', f.finalBoca);
+  if (f.tipo === 'espumoso') line('Carbónico', f.carbonico);
   line('Persistencia (PAI)', f.persistencia);
   line('Equilibrio', f.equilibrio);
   y += 2;
 
   sectionHeader('Maridaje y valoración');
   line('Maridaje recomendado', f.maridaje);
+  if (f.ptsVisual != null || f.ptsOlfativa != null || f.ptsGustativa != null) {
+    line('Puntuación por fases', 'Visual ' + (Number(f.ptsVisual) || 0) + '/2  ·  Olfativa ' + (Number(f.ptsOlfativa) || 0) + '/3  ·  Gustativa ' + (Number(f.ptsGustativa) || 0) + '/5');
+  }
   line('Valoración global', f.valoracion + ' / 10');
   y += 2;
 
@@ -547,7 +659,8 @@ function chipGroup(field, options, multi, colored) {
 }
 
 function field(label, hint, inner) {
-  return '<label class="field"><span class="field-label">' + label + '</span>' + inner + (hint ? '<span class="hint">ⓘ ' + hint + '</span>' : '') + '</label>';
+  const tag = /^<(input|textarea)/.test(inner) ? 'label' : 'div';
+  return '<' + tag + ' class="field"><span class="field-label">' + label + '</span>' + inner + (hint ? '<span class="hint">ⓘ ' + hint + '</span>' : '') + '</' + tag + '>';
 }
 
 function textInput(fieldName, placeholder, value) {
@@ -558,12 +671,16 @@ function textArea(fieldName, placeholder, value) {
   return '<textarea class="textarea" placeholder="' + esc(placeholder) + '" oninput="updateField(\'' + fieldName + '\', this.value)">' + esc(value) + '</textarea>';
 }
 
-function wineGlass(hex) {
+function wineGlass(hex, rib) {
   const has = hex && hex !== '#9c8f86';
   return '<svg width="100" height="140" viewBox="0 0 120 160">' +
-    '<defs><clipPath id="bowlClip"><path d="M22,12 C22,52 32,82 60,88 C88,82 98,52 98,12 Z"/></clipPath></defs>' +
+    '<defs><clipPath id="bowlClip"><path d="M22,12 C22,52 32,82 60,88 C88,82 98,52 98,12 Z"/></clipPath>' +
+    '<clipPath id="liqClip"><rect x="0" y="46" width="120" height="50"/></clipPath>' +
+    '<filter id="softEdge"><feGaussianBlur stdDeviation="2.5"/></filter></defs>' +
+    (has ? '<g clip-path="url(#bowlClip)"><rect x="18" y="46" width="86" height="46" fill="' + hex + '" opacity="0.92"/>' +
+      (rib ? '<g clip-path="url(#liqClip)"><path d="M22,12 C22,52 32,82 60,88 C88,82 98,52 98,12 Z" fill="none" stroke="' + rib + '" stroke-width="16" filter="url(#softEdge)" opacity="0.95"/></g>' : '') +
+      '</g>' : '') +
     '<path d="M22,12 C22,52 32,82 60,88 C88,82 98,52 98,12 Z" fill="none" stroke="#B78A3D" stroke-width="2" opacity="0.55"/>' +
-    (has ? '<rect x="18" y="46" width="86" height="46" fill="' + hex + '" opacity="0.88" clip-path="url(#bowlClip)"/>' : '') +
     '<line x1="60" y1="88" x2="60" y2="140" stroke="#B78A3D" stroke-width="2" opacity="0.55"/>' +
     '<ellipse cx="60" cy="145" rx="26" ry="6" fill="none" stroke="#B78A3D" stroke-width="2" opacity="0.55"/>' +
     '</svg>';
@@ -590,7 +707,26 @@ function tabsHTML() {
   return '<div class="tabs">' +
     '<button class="tab' + (tab === 'nueva' ? ' active' : '') + '" onclick="setTab(\'nueva\')">+ Nueva cata</button>' +
     '<button class="tab' + (tab === 'fichas' ? ' active' : '') + '" onclick="setTab(\'fichas\')">📋 Mis fichas<span class="tab-badge">' + fichas.length + '</span></button>' +
+    '<button class="tab small' + (tab === 'guia' ? ' active' : '') + '" onclick="setTab(\'guia\')">📖 Guía</button>' +
     '</div>';
+}
+
+function scoreRows() {
+  return PUNTOS.map(p => {
+    let chips = '';
+    for (let n = 0; n <= p.max; n++) {
+      chips += '<button type="button" class="score-chip' + (form[p.k] === n ? ' active' : '') + '" onclick="setPts(\'' + p.k + '\',' + n + ')">' + n + '</button>';
+    }
+    return '<div class="score-row"><span class="score-label">' + p.l + '</span><div class="score-chips">' + chips + '</div><span class="score-max">de ' + p.max + '</span></div>';
+  }).join('');
+}
+
+function aromaGroups() {
+  return AROMAS.map(g =>
+    '<div class="aroma-group"><div class="aroma-head"><b>' + g.t + '</b><span>' + g.s + '</span></div>' +
+    chipGroup('familias', g.opts, true) +
+    '<span class="hint">ⓘ ' + g.ej + '</span></div>'
+  ).join('');
 }
 
 function nuevaCataHTML() {
@@ -598,19 +734,23 @@ function nuevaCataHTML() {
   const stepOlfativa = form.intensidadAroma && form.franqueza && form.familias.length > 0;
   const stepGustativa = form.dulzor && form.acidez && form.cuerpo && form.persistencia && form.equilibrio;
   const stepDatos = form.nombre.trim().length > 0;
+  const rb = ribOpts(form.tipo);
 
   let html = '';
   html += '<div class="steps">' + stepDot(stepVisual,'Visual') + stepDot(stepOlfativa,'Olfativa') + stepDot(stepGustativa,'Gustativa') + stepDot(stepDatos,'Datos') + '</div>';
 
-  html += '<div class="hero">' + wineGlass(hexFor(form)) +
-    '<div class="hero-text"><b>Copa de referencia.</b> Se colorea sola cuando eliges el tipo y el color del vino en la fase visual.</div></div>';
+  html += '<div class="hero">' + wineGlass(hexFor(form), ribeteHex(form)) +
+    '<div class="hero-text"><b>Copa de referencia.</b> Se colorea sola cuando eliges el color del vino y su ' + rb.label.toLowerCase() + ' en la fase visual.</div></div>';
 
   // FASE VISUAL
-  html += '<div class="card"><h2 class="card-title">🍇 1. Fase visual</h2><p class="card-sub">Observa la copa inclinada sobre un fondo blanco.</p>';
+  html += '<div class="card"><h2 class="card-title">🍇 1. Fase visual</h2><p class="card-sub">Copa llena a 1/3, inclinada 45º sobre un fondo blanco.</p>';
   html += field('Tipo de vino', null, '<div class="chipgroup">' + TIPOS.map(t => '<button type="button" class="chip' + (form.tipo === t.v ? ' active' : '') + '" onclick="setTipo(\'' + t.v + '\')">' + t.l + '</button>').join('') + '</div>');
-  html += field('Color', 'Elige el matiz que más se aproxime al del vino.', chipGroup('color', COLORS[form.tipo], false, true));
-  html += '<div class="grid">' + field('Intensidad de color', null, chipGroup('intensidadColor', INTENSIDAD_COLOR)) + field('Limpidez', null, chipGroup('limpidez', LIMPIDEZ)) + '</div>';
-  html += field('Lágrima / fluidez', 'Cómo resbala el vino por la copa: más densa suele indicar más alcohol o azúcar.', chipGroup('lagrima', LAGRIMA));
+  html += field('Color', 'Elige el matiz que más se aproxime al del centro de la copa.', chipGroup('color', COLORS[form.tipo], false, true));
+  html += field(rb.label + ' (borde del vino)', rb.hint, chipGroup('ribete', rb.opts, false, true) + (ribeteHint(form) ? '<div class="deduction">💡 ' + ribeteHint(form) + '</div>' : ''));
+  html += field('Evolución', 'Tu deducción por el color: los blancos se oscurecen y los tintos se aclaran con los años.', chipGroup('evolucion', EVOLUCION));
+  html += field('Intensidad de color (capa)', '¿Puedes leer a través del vino? Si apenas se ve el fondo, la capa es alta (vino cubierto).', chipGroup('intensidadColor', INTENSIDAD_COLOR));
+  html += field('Limpidez', 'Brillante y limpio: sin partículas. Velado o turbio: con partículas en suspensión.', chipGroup('limpidez', LIMPIDEZ));
+  html += field('Lágrima / fluidez', 'Gira la copa y mira cómo resbala: más lágrima suele indicar más alcohol o azúcar.', chipGroup('lagrima', LAGRIMA));
   if (form.tipo === 'espumoso') {
     html += field('Tipo de burbuja', 'Fina (como agujas de collar) o gruesa (más basta, suele indicar menor calidad).', chipGroup('tipoBurbuja', TIPO_BURBUJA));
     html += '<div class="grid">' + field('Cantidad de burbujas', null, chipGroup('cantidadBurbujas', CANTIDAD_BURBUJAS)) + field('Persistencia de la burbuja', 'Cuánto tiempo se mantiene el desprendimiento de burbujas (la "aguja") en la copa.', chipGroup('persistenciaBurbuja', PERSISTENCIA_BURBUJA)) + '</div>';
@@ -618,20 +758,32 @@ function nuevaCataHTML() {
   html += '</div>';
 
   // FASE OLFATIVA
-  html += '<div class="card"><h2 class="card-title">✨ 2. Fase olfativa</h2><p class="card-sub">Huele sin remover y después con la copa en movimiento.</p>';
+  html += '<div class="card"><h2 class="card-title">✨ 2. Fase olfativa</h2><p class="card-sub">Primero con la copa parada, después moviéndola.</p>';
   html += '<div class="grid">' + field('Intensidad aromática', null, chipGroup('intensidadAroma', INTENSIDAD_AROMA)) + field('Franqueza', '¿Los aromas son limpios o hay algún defecto?', chipGroup('franqueza', FRANQUEZA)) + '</div>';
-  html += field('Familias aromáticas', 'Selecciona todas las que reconozcas.', chipGroup('familias', FAMILIAS_AROMA, true));
+  html += field('Calidad del aroma', 'Se valora por su finura (elegancia), sutileza (armonía) y originalidad.', chipGroup('calidadAroma', CALIDAD_AROMA));
+  html += field('Familias aromáticas', 'Marca todas las que reconozcas, en cada etapa.', aromaGroups());
   html += field('Notas concretas', 'Ej: cereza, vainilla, tostado, hierba recién cortada...', textInput('notasAroma', 'Escribe los aromas que detectas', form.notasAroma));
   html += '</div>';
 
   // FASE GUSTATIVA
   html += '<div class="card"><h2 class="card-title">🧪 3. Fase gustativa</h2><p class="card-sub">Toma un sorbo pequeño y airea el vino en boca.</p>';
-  html += '<div class="grid">' + field('Dulzor', null, chipGroup('dulzor', DULZOR)) + field('Acidez', null, chipGroup('acidez', ACIDEZ)) + '</div>';
+  html += '<div class="grid">' + field('Dulzor', null, chipGroup('dulzor', DULZOR)) + field('Acidez', 'Más acidez = más frescura y más capacidad de guarda.', chipGroup('acidez', ACIDEZ)) + '</div>';
   if (form.tipo === 'tinto' || form.tipo === 'rosado') {
-    html += field('Taninos', 'Sensación de aspereza o sequedad en encías y lengua.', chipGroup('taninos', TANINOS));
+    html += field('Taninos', 'Sensación de aspereza o sequedad en encías y lengua (astringencia).', chipGroup('taninos', TANINOS));
   }
-  html += '<div class="grid">' + field('Cuerpo', null, chipGroup('cuerpo', CUERPO)) + field('Equilibrio', null, chipGroup('equilibrio', EQUILIBRIO)) + '</div>';
-  html += field('Persistencia (PAI)', 'Segundos que dura el sabor después de tragar.', chipGroup('persistencia', PERSISTENCIA));
+  html += '<div class="grid">' + field('Alcohol', 'Cálido: bien integrado. Ardiente: desequilibrado, quema.', chipGroup('alcohol', ALCOHOL)) + field('Cuerpo', null, chipGroup('cuerpo', CUERPO)) + '</div>';
+  if (form.tipo === 'espumoso') {
+    html += field('Carbónico', 'Debe ser refrescante: ni tan excesivo que moleste ni escaso.', chipGroup('carbonico', CARBONICO));
+  }
+  html += field('Entrada en boca', 'Primera sensación (ataque). Los vinos jóvenes son frescos y frutales; los viejos, más complejos.', chipGroup('entrada', ENTRADA));
+  html += field('Final de boca', 'Lo que queda tras tragar.', chipGroup('finalBoca', FINAL_BOCA));
+  html += '<div class="grid">' + field('Equilibrio', 'Ningún sabor sobresale sobre los demás.', chipGroup('equilibrio', EQUILIBRIO)) + field('Persistencia (PAI)', 'Segundos que dura el sabor después de tragar.', chipGroup('persistencia', PERSISTENCIA)) + '</div>';
+  html += '</div>';
+
+  // PUNTUACION
+  html += '<div class="card"><h2 class="card-title">🏅 Puntuación</h2><p class="card-sub">Modelo «vino a ciegas»: visual 0-2, olfativa 0-3, gustativa 0-5.</p>';
+  html += scoreRows();
+  html += '<div class="total-box"><span>Total</span><b id="total-display">' + totalPts(form) + ' / 10</b></div>';
   html += '</div>';
 
   // DATOS FINALES
@@ -642,9 +794,9 @@ function nuevaCataHTML() {
   html += field('Nombre del vino', null, textInput('nombre', 'Ej: Viña Alta Reserva', form.nombre));
   html += '<div class="grid">' + field('Bodega', null, textInput('bodega', 'Nombre de la bodega', form.bodega)) + field('D.O. / Zona vinícola', null, textInput('doZona', 'Ej: Ribera del Duero', form.doZona)) + '</div>';
   html += '<div class="grid3">' + field('Añada', null, textInput('anada', '2022', form.anada)) + field('Graduación %', null, textInput('graduacion', '13.5', form.graduacion)) + field('Precio €', null, textInput('precio', '9.90', form.precio)) + '</div>';
-  html += field('Variedad de uva', null, textInput('variedad', 'Ej: Tempranillo', form.variedad));
+  html += '<div class="grid">' + field('Variedad de uva', null, textInput('variedad', 'Ej: Tempranillo', form.variedad)) + field('Temperatura de servicio °C', 'Medida o estimada al catar.', textInput('temperatura', 'Ej: 16', form.temperatura)) + '</div>';
+  html += field('Crianza', null, chipGroup('crianza', CRIANZA));
   html += field('Maridaje', '¿Con qué platos combina bien este vino?', textArea('maridaje', 'Ej: carnes rojas a la brasa, quesos curados...', form.maridaje));
-  html += field('Valoración global', null, '<div class="slider-row"><input type="range" min="0" max="10" step="1" value="' + form.valoracion + '" oninput="updateValoracion(this.value)"><span class="slider-val" id="val-display">' + form.valoracion + '/10</span></div>');
   html += field('Conclusión / observaciones', null, textArea('conclusion', 'Impresión general, momento de consumo recomendado...', form.conclusion));
   html += '<div class="save-row"><button class="btn btn-primary" onclick="saveFicha()">💾 Guardar ficha</button><button class="btn btn-ghost" onclick="resetForm()">Limpiar</button></div>';
   html += '</div>';
@@ -659,6 +811,7 @@ function fichasHTML() {
   }
   return fichas.map(f => {
     const open = expandedId === f.id;
+    const ribLabel = f.tipo === 'tinto' ? 'Ribete' : 'Reflejos';
     let card = '<div class="ficha-card" onclick="toggleExpand(\'' + f.id + '\')">';
     card += '<div class="ficha-top"><span class="ficha-dot" style="background:' + hexFor(f) + '"></span><div>';
     card += '<p class="ficha-title">' + esc(f.nombre) + '</p>';
@@ -666,12 +819,19 @@ function fichasHTML() {
     card += '</div><span class="ficha-score">' + f.valoracion + '/10</span></div>';
 
     if (open) {
+      const ap = aromasPorGrupo(f);
+      let aromasHtml = ap.grupos.filter(x => x.sel.length).map(x => '<div class="detail-row"><b>' + x.g.pdf.replace('Aromas p','P').replace('Aromas s','S').replace('Aromas t','T') + ':</b> ' + esc(x.sel.join(', ')) + '</div>').join('');
+      if (ap.otras.length) aromasHtml += '<div class="detail-row"><b>Otras:</b> ' + esc(ap.otras.join(', ')) + '</div>';
+      if (!aromasHtml) aromasHtml = '<div class="detail-row"><b>Familias:</b> -</div>';
       card += '<div class="detail">';
       if (f.fotoEtiqueta) card += '<img src="' + f.fotoEtiqueta + '" class="ficha-photo" />';
-      card += '<div class="detail-section"><h4>Visual</h4><div class="detail-row"><b>Color:</b> ' + esc(f.color || '-') + ' · ' + esc(f.intensidadColor || '-') + '</div><div class="detail-row"><b>Limpidez:</b> ' + esc(f.limpidez || '-') + ' · <b>Lágrima:</b> ' + esc(f.lagrima || '-') + '</div></div>';
-      card += '<div class="detail-section"><h4>Olfativa</h4><div class="detail-row"><b>Intensidad:</b> ' + esc(f.intensidadAroma || '-') + ' · <b>Franqueza:</b> ' + esc(f.franqueza || '-') + '</div><div class="detail-row"><b>Familias:</b> ' + esc(f.familias.length ? f.familias.join(', ') : '-') + '</div>' + (f.notasAroma ? '<div class="detail-row"><b>Notas:</b> ' + esc(f.notasAroma) + '</div>' : '') + '</div>';
-      card += '<div class="detail-section"><h4>Gustativa</h4><div class="detail-row"><b>Dulzor:</b> ' + esc(f.dulzor || '-') + ' · <b>Acidez:</b> ' + esc(f.acidez || '-') + '</div>' + ((f.tipo === 'tinto' || f.tipo === 'rosado') ? '<div class="detail-row"><b>Taninos:</b> ' + esc(f.taninos || '-') + '</div>' : '') + '<div class="detail-row"><b>Cuerpo:</b> ' + esc(f.cuerpo || '-') + ' · <b>Persistencia:</b> ' + esc(f.persistencia || '-') + '</div><div class="detail-row"><b>Equilibrio:</b> ' + esc(f.equilibrio || '-') + '</div></div>';
-      card += '<div class="detail-section"><h4>Ficha</h4><div class="detail-row"><b>Bodega:</b> ' + esc(f.bodega || '-') + '</div><div class="detail-row"><b>Graduación:</b> ' + (f.graduacion ? esc(f.graduacion) + ' %' : '-') + ' · <b>Precio:</b> ' + (f.precio ? esc(f.precio) + ' €' : '-') + '</div><div class="detail-row"><b>Variedad:</b> ' + esc(f.variedad || '-') + '</div><div class="detail-row"><b>Maridaje:</b> ' + esc(f.maridaje || '-') + '</div>' + (f.conclusion ? '<div class="detail-row"><b>Conclusión:</b> ' + esc(f.conclusion) + '</div>' : '') + '</div>';
+      card += '<div class="detail-section"><h4>Visual</h4><div class="detail-row"><b>Color:</b> ' + esc(f.color || '-') + ' · <b>' + ribLabel + ':</b> ' + esc(f.ribete || '-') + '</div><div class="detail-row"><b>Evolución:</b> ' + esc(f.evolucion || '-') + ' · <b>Capa:</b> ' + esc(f.intensidadColor || '-') + '</div><div class="detail-row"><b>Limpidez:</b> ' + esc(f.limpidez || '-') + ' · <b>Lágrima:</b> ' + esc(f.lagrima || '-') + '</div>' +
+        (f.tipo === 'espumoso' ? '<div class="detail-row"><b>Burbuja:</b> ' + esc(f.tipoBurbuja || '-') + ' · ' + esc(f.cantidadBurbujas || '-') + ' · persistencia ' + esc(f.persistenciaBurbuja || '-') + '</div>' : '') + '</div>';
+      card += '<div class="detail-section"><h4>Olfativa</h4><div class="detail-row"><b>Intensidad:</b> ' + esc(f.intensidadAroma || '-') + ' · <b>Calidad:</b> ' + esc(f.calidadAroma || '-') + ' · <b>Franqueza:</b> ' + esc(f.franqueza || '-') + '</div>' + aromasHtml + (f.notasAroma ? '<div class="detail-row"><b>Notas:</b> ' + esc(f.notasAroma) + '</div>' : '') + '</div>';
+      card += '<div class="detail-section"><h4>Gustativa</h4><div class="detail-row"><b>Dulzor:</b> ' + esc(f.dulzor || '-') + ' · <b>Acidez:</b> ' + esc(f.acidez || '-') + '</div>' + ((f.tipo === 'tinto' || f.tipo === 'rosado') ? '<div class="detail-row"><b>Taninos:</b> ' + esc(f.taninos || '-') + '</div>' : '') + '<div class="detail-row"><b>Alcohol:</b> ' + esc(f.alcohol || '-') + ' · <b>Cuerpo:</b> ' + esc(f.cuerpo || '-') + '</div><div class="detail-row"><b>Entrada:</b> ' + esc(f.entrada || '-') + ' · <b>Final:</b> ' + esc(f.finalBoca || '-') + '</div>' + (f.tipo === 'espumoso' ? '<div class="detail-row"><b>Carbónico:</b> ' + esc(f.carbonico || '-') + '</div>' : '') + '<div class="detail-row"><b>Persistencia:</b> ' + esc(f.persistencia || '-') + ' · <b>Equilibrio:</b> ' + esc(f.equilibrio || '-') + '</div></div>';
+      card += '<div class="detail-section"><h4>Ficha</h4><div class="detail-row"><b>Bodega:</b> ' + esc(f.bodega || '-') + '</div><div class="detail-row"><b>Graduación:</b> ' + (f.graduacion ? esc(f.graduacion) + ' %' : '-') + ' · <b>Precio:</b> ' + (f.precio ? esc(f.precio) + ' €' : '-') + '</div><div class="detail-row"><b>Variedad:</b> ' + esc(f.variedad || '-') + (f.crianza ? ' · <b>Crianza:</b> ' + esc(f.crianza) : '') + (f.temperatura ? ' · <b>Servicio:</b> ' + esc(f.temperatura) + ' °C' : '') + '</div><div class="detail-row"><b>Maridaje:</b> ' + esc(f.maridaje || '-') + '</div>' +
+        ((f.ptsVisual != null || f.ptsOlfativa != null || f.ptsGustativa != null) ? '<div class="detail-row"><b>Puntos:</b> Visual ' + (Number(f.ptsVisual) || 0) + '/2 · Olfativa ' + (Number(f.ptsOlfativa) || 0) + '/3 · Gustativa ' + (Number(f.ptsGustativa) || 0) + '/5</div>' : '') +
+        (f.conclusion ? '<div class="detail-row"><b>Conclusión:</b> ' + esc(f.conclusion) + '</div>' : '') + '</div>';
       card += '<div class="detail-actions"><button onclick="downloadFicha(\'' + f.id + '\', event)">⬇ Descargar PDF</button><button class="danger" onclick="deleteFicha(\'' + f.id + '\', event)">🗑 Eliminar</button></div>';
       card += '</div>';
     }
@@ -680,9 +840,130 @@ function fichasHTML() {
   }).join('');
 }
 
+/* ------------------------------------------------------------------ */
+/* Guía rápida (contenido de la UT 4)                                   */
+/* ------------------------------------------------------------------ */
+function gRows(rows) {
+  return rows.map(r => '<div class="row">' + (r[2] ? '<span class="sw" style="background:' + r[2] + '"></span>' : '') + '<div><b>' + r[0] + '</b> — ' + r[1] + '</div></div>').join('');
+}
+function gDl(items) {
+  return '<dl>' + items.map(i => '<dt>' + i[0] + '</dt><dd>' + i[1] + '</dd>').join('') + '</dl>';
+}
+
+function guiaHTML() {
+  let h = '<div class="guide">';
+
+  h += '<details><summary>🧭 Antes de catar</summary><div class="gbody"><ul>' +
+    '<li><b>Boca limpia</b> (sin tabaco, caramelos ni pasta de dientes) y sin perfumes fuertes.</li>' +
+    '<li><b>Fondo blanco</b> (mantel o papel) para ver bien el color.</li>' +
+    '<li><b>La copa se coge por el pie o el tallo</b>, nunca por el cáliz. Llénala solo 1/3 (la copa normalizada tiene 50 ml de degustación).</li>' +
+    '<li><b>Concentración:</b> la cata es individual; sin gestos ni comentarios hasta el final. Rellena la ficha mientras catas.</li>' +
+    '<li><b>Temperatura:</b> con la ideal (o algo por encima) salen todos los aromas; si está demasiado caliente manda el alcohol.</li></ul>' +
+    '<h5>Orden de cata</h5><div class="rule">Secos antes que dulces · jóvenes antes que crianzas · vinos de mediana calidad antes que grandes vinos.</div></div></details>';
+
+  h += '<details><summary>👁 Fase visual</summary><div class="gbody">' +
+    '<div class="rule">Con el tiempo, <b>los blancos se oscurecen y los tintos se aclaran</b>: los colores convergen.</div>' +
+    '<h5>Ribete de los tintos</h5>' + gRows([
+      ['Violáceo', 'vino muy joven (última cosecha).', '#7A2E7A'],
+      ['Frambuesa', 'vino joven.', '#B03A5B'],
+      ['Granate', 'vino algo más maduro.', '#8E2433'],
+      ['Teja / ladrillo', 'más de 5 años en botella o crianza larga.', '#B4553A']
+    ]) +
+    '<p>El <b>ribete</b> (borde u orilla) es el color menos intenso del vino si lo comparamos con el centro de la copa.</p>' +
+    '<h5>Tintos: color y edad</h5>' + gRows([
+      ['Violáceo', 'muy joven.', '#5B1A34'],
+      ['Rojo cereza / picota', 'ni joven ni evolucionado.', '#971B3A'],
+      ['Matices anaranjados (teja)', 'madurez de crianza; envejecimiento (3 a 7 años).', '#7A3B2E'],
+      ['Rojo pardo / amarronado', 'apogeo en un gran vino; en uno vulgar, envejecimiento excesivo.', '#5C3A2E']
+    ]) +
+    '<h5>Blancos: color y edad</h5>' + gRows([
+      ['Casi incoloro / verdoso', 'muy joven o joven, vinificado en cuba.', '#D3DE85'],
+      ['Pajizo u oro', 'madurez; tal vez criado en madera.', '#E3B94F'],
+      ['Oro cobrizo', 'ya viejo.', '#C98B2C'],
+      ['Ámbar tirando a ocre', 'oxidado, vino pasado.', '#A8742A']
+    ]) +
+    '<h5>Rosados</h5>' + gRows([
+      ['Rosa frambuesa / salmón', 'joven y frutal, listo para beber.', '#E5758F'],
+      ['Piel de cebolla', 'empieza a ser demasiado viejo.', '#E8B89B']
+    ]) +
+    '<h5>Otros aspectos</h5><ul>' +
+    '<li><b>Limpidez:</b> brillante, limpio, velado (película densa de partículas) o turbio. No confundas turbidez con sedimentos naturales de un vino viejo.</li>' +
+    '<li><b>Capa (intensidad):</b> baja, media-baja, media, media-alta o alta. Vino <i>cubierto</i> = capa media-alta o alta.</li>' +
+    '<li><b>Lágrima / fluidez:</b> a más lágrima, más graduación: vino denso o «glicérico».</li></ul></div></details>';
+
+  h += '<details><summary>👃 Fase olfativa</summary><div class="gbody">' +
+    '<p>El olfato es unas <b>10.000 veces más sensible</b> que el gusto. Se huele en tres momentos:</p><ul>' +
+    '<li><b>Copa parada:</b> aromas primarios, propios de la variedad (sobre todo frutales y florales).</li>' +
+    '<li><b>Moviendo la copa:</b> aparecen enseguida los secundarios (fermentación) y más tarde los terciarios (crianza).</li>' +
+    '<li><b>«Rompiendo» la copa</b> (agitar tapando con la mano): solo si hay un aroma esquivo o una anomalía difícil de detectar.</li></ul>' +
+    '<h5>Tres familias de aromas</h5>' + gRows([
+      ['Primarios o varietales', 'de la uva (y el terruño): fruta, flores, hierbas, minerales, especias.'],
+      ['Secundarios o de fermentación', 'levaduras y azúcares: pan, brioche, yogur, plátano. No deben prevalecer sobre los primarios.'],
+      ['Terciarios o de crianza (bouquet)', 'barrica y botella: frutos secos, miel, cacao, cuero, vainilla, cedro, humo. La serie animal-empireumática es propia de tintos.']
+    ]) +
+    '<h5>Cómo describir un olor</h5><ul><li><b>Intensidad:</b> fuerte, media o débil.</li><li><b>Calidad:</b> agradable o desagradable (finura, sutileza, originalidad).</li><li><b>Clase:</b> identificar el olor.</li></ul></div></details>';
+
+  h += '<details><summary>👅 Fase gustativa</summary><div class="gbody">' +
+    '<div class="rule">La boca confirma lo que anunciaron la vista y la nariz.</div>' +
+    '<h5>Qué analizamos</h5>' + gRows([
+      ['Equilibrio', 'un vino equilibrado es aquel en el que ningún sabor sobresale: el dulce se compensa con salado, ácido, amargo y umami.'],
+      ['Astringencia', 'aspereza y sequedad producidas por los taninos.'],
+      ['Acidez', 'frescura y capacidad de guarda (envejecimiento).'],
+      ['Alcohol', 'sensación de calidez; ardor si hay desequilibrio.'],
+      ['Carbónico', 'en espumosos: refrescante, ni excesivo ni escaso.'],
+      ['Cuerpo', 'sensación de «grosor» o «finura» del vino.'],
+      ['Persistencia', 'tiempo que tarda en desaparecer el sabor tras tragar: vino largo o corto.']
+    ]) +
+    '<h5>Etapas en boca</h5><ul>' +
+    '<li><b>Entrada o ataque:</b> primera sensación. Jóvenes: frescos, con fruta y acidez. Viejos: menos efusivos pero más complejos.</li>' +
+    '<li><b>Desarrollo:</b> textura, cremosidad, burbujas; el calor de la boca libera nuevos aromas (vía retronasal).</li>' +
+    '<li><b>Final:</b> lo que deja tras ingerirlo (goloso, amargo…) y cuánto dura.</li></ul></div></details>';
+
+  h += '<details><summary>📖 Vocabulario</summary><div class="gbody">' +
+    '<h5>Visual</h5>' + gDl([
+      ['Abierto', 'color muy claro, poco intenso.'],
+      ['Acerado', 'color pálido de brillos metálicos, en algunos blancos.'],
+      ['Brillante', 'relacionado con la juventud y la limpidez del vino.'],
+      ['Caoba', 'tono marrón-amarillo de generosos y destilados viejos.'],
+      ['Cubierto', 'tinto tan oscuro que apenas deja ver el fondo de la copa.'],
+      ['Guinda', 'más claro que un tinto y más oscuro que un rosado.'],
+      ['Oro viejo', 'dorado con tonalidad algo marrón.'],
+      ['Ribete', 'borde u orilla del vino; revela su edad.']
+    ]) +
+    '<h5>Olfativo</h5>' + gDl([
+      ['Balsámico', 'eucalipto, incienso, alquitrán; o crianza en madera acelerada por el calor.'],
+      ['Elegante / fino', 'matices nobles de poca intensidad pero muy armonizados.'],
+      ['Flor', 'aroma punzante y salino del fino y la manzanilla, por la capa de levaduras.'],
+      ['Lías', 'aroma herbáceo y ligeramente tostado de vinos fermentados con sus lías.'],
+      ['Monte bajo', 'romero, tomillo y otras hierbas del monte mediterráneo.'],
+      ['Notas minerales', 'recuerdan al pedernal, la pizarra o la arena.'],
+      ['Reducción', 'aromas por falta de aire en botella: tabaco, cuero, vainilla, cacao.'],
+      ['Terroso', 'tierra recién mojada y polvo, en tintos de uvas maduras.'],
+      ['Vainilla', 'típico de vinos criados en roble (vainillina de la madera).']
+    ]) +
+    '<h5>Gustativo</h5>' + gDl([
+      ['Aterciopelado', 'suave y placentero: taninos y acidez pulidos por el tiempo en botella.'],
+      ['Blando', 'poca acidez y falto de frescura.'],
+      ['Cálido', 'el lado bueno del alcohol.'],
+      ['Carnoso', 'con cuerpo y estructura: se «mastica».'],
+      ['Complejo', 'conjunto de matices muy rico, difícil de precisar.'],
+      ['Equilibrado', 'ningún componente sobresale.'],
+      ['Largo', 'el sabor persiste tras tragar.'],
+      ['Redondo', 'sin aristas, suave y con volumen.'],
+      ['Tánico', 'tacto ligeramente áspero por los taninos.'],
+      ['Untuoso', 'tacto graso, cálido y ligeramente dulzón de algunos vinos dulces.'],
+      ['Vigoroso', 'vino de gran poder alcohólico.']
+    ]) +
+    '</div></details>';
+
+  h += '<p class="footnote">Resumen de la UT 4 · Análisis sensorial o cata de vinos.</p></div>';
+  return h;
+}
+
 function render() {
   const root = document.getElementById('app');
-  root.innerHTML = headerHTML() + tabsHTML() + (tab === 'nueva' ? nuevaCataHTML() : fichasHTML());
+  const body = tab === 'nueva' ? nuevaCataHTML() : (tab === 'guia' ? guiaHTML() : fichasHTML());
+  root.innerHTML = headerHTML() + tabsHTML() + body;
   const photoInput = document.getElementById('photo-input');
   if (photoInput) photoInput.onchange = handlePhotoChange;
 }
