@@ -472,7 +472,7 @@ function generatePdfForFicha(f) {
   let colWidth = contentRight - marginL;
 
   function checkPageBreak(needed) {
-    if (y + needed > 280) {
+    if (y + needed > 286) {
       doc.addPage();
       y = 20;
       colWidth = contentRight - marginL;
@@ -486,10 +486,10 @@ function generatePdfForFicha(f) {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
     doc.text(title.toUpperCase(), marginL + 2, y + 4.2);
-    y += 9;
+    y += 8;
     doc.setTextColor(43, 33, 29);
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
+    doc.setFontSize(9.5);
   }
   function line(label, value, hex) {
     checkPageBreak(6);
@@ -509,13 +509,13 @@ function generatePdfForFicha(f) {
     }
     const wrapped = doc.splitTextToSize(value || '-', colWidth - labelWidth - off);
     doc.text(wrapped, marginL + labelWidth + off, y);
-    y += 5 * Math.max(wrapped.length, 1);
+    y += 4.3 * Math.max(wrapped.length, 1);
   }
   function paragraph(text) {
     checkPageBreak(10);
     const wrapped = doc.splitTextToSize(text || '-', colWidth);
     doc.text(wrapped, marginL, y);
-    y += 5 * Math.max(wrapped.length, 1);
+    y += 4.3 * Math.max(wrapped.length, 1);
   }
 
   // Cabecera
@@ -557,7 +557,7 @@ function generatePdfForFicha(f) {
   line('Graduación', f.graduacion ? f.graduacion + ' % vol.' : '-');
   line('Temperatura de servicio', f.temperatura ? f.temperatura + ' °C' : '-');
   line('Precio', f.precio ? f.precio + ' €' : '-');
-  y += 2;
+  y += 1;
 
   sectionHeader('Fase visual');
   line('Tipo', f.tipo ? f.tipo.charAt(0).toUpperCase() + f.tipo.slice(1) : '-');
@@ -572,7 +572,7 @@ function generatePdfForFicha(f) {
     line('Cantidad de burbujas', f.cantidadBurbujas);
     line('Persistencia de la burbuja', f.persistenciaBurbuja);
   }
-  y += 2;
+  y += 1;
   colWidth = contentRight - marginL;
 
   sectionHeader('Fase olfativa');
@@ -583,7 +583,7 @@ function generatePdfForFicha(f) {
   ap.grupos.forEach(function (x) { line(x.g.pdf, x.sel.length ? x.sel.join(', ') : '-'); });
   if (ap.otras.length) line('Otras familias', ap.otras.join(', '));
   line('Notas', f.notasAroma);
-  y += 2;
+  y += 1;
 
   sectionHeader('Fase gustativa');
   line('Dulzor', f.dulzor);
@@ -596,7 +596,7 @@ function generatePdfForFicha(f) {
   if (f.tipo === 'espumoso') line('Carbónico', f.carbonico);
   line('Persistencia (PAI)', f.persistencia);
   line('Equilibrio', f.equilibrio);
-  y += 2;
+  y += 1;
 
   sectionHeader('Maridaje y valoración');
   line('Maridaje recomendado', f.maridaje);
@@ -604,7 +604,7 @@ function generatePdfForFicha(f) {
     line('Puntuación por fases', 'Visual ' + (Number(f.ptsVisual) || 0) + '/2  ·  Olfativa ' + (Number(f.ptsOlfativa) || 0) + '/3  ·  Gustativa ' + (Number(f.ptsGustativa) || 0) + '/5');
   }
   line('Valoración global', f.valoracion + ' / 10');
-  y += 2;
+  y += 1;
 
   sectionHeader('Conclusión');
   paragraph(f.conclusion);
